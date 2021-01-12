@@ -1,0 +1,77 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+body {
+    background-color: #6363630c;
+}
+
+hr {
+    background-color: rgb(0, 162, 255);
+}
+
+.navbar .container .navbar-brand {
+    color: black;
+    font-weight: 700;
+}
+
+.navbar{
+    background-color: rgb(0, 162, 255)!important;
+}
+
+.navbar .container .navbar-brand:hover {
+    color: rgb(0, 0, 0);
+}
+
+.navbar .container .navbar-brand {
+    color: rgb(253, 253, 253);
+}
+
+.nav-item .nav-link {
+    color: rgb(253, 253, 253) !important;
+}
+
+.navbar .container .nav-item .nav-link:hover {
+    color: rgb(0, 0, 0) !important;
+}
+
+#sec-nav{
+    color: #000000!important;
+}
+
+.navbar ul li a {
+    color: rgb(0, 0, 0);
+    font-size: 1.2rem;
+    font-weight: 600;
+    font-family: 'Roboto Condensed';
+}
+
+.navbar ul li .nav-link:hover {
+    color: #ffffff;
+}
+
+/* header */
+
+.header{
+    height: 20px;
+    width: auto;
+    background-position: center;
+    background-color: #63636304;
+}
+/* sign up */
+.signup {
+    margin-top: 1000px;
+}
+
+.form-inline table tr{
+    padding-bottom: 120px;
+}
+
+.signup .form-inline table, tr, td {
+    padding: 10px;
+}
+
+
