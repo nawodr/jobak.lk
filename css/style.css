@@ -6,12 +6,12 @@
     
 }
 .menu-bar{
-    background-image: linear-gradient(to right, #6bd9ef, #7ce08a);
+    background-image: linear-gradient(to right, #7ce08a, #6bd9ef);
 }
 
 .nav-link{
     font-size: 16px;
-    color: #fff !important;
+    color: rgb(43, 41, 41) !important;
     margin: 2px;
 }
 
@@ -24,6 +24,33 @@
     outline: none;
     border: none;
 }
+#freeadd{
+    background: linear-gradient(#f3ff8f,#e2dd54);
+    border-radius: 10px;
+    color: #000000!important;
+}
+
+/* sub navigation bar */
+
+.subnav{
+    background-image: linear-gradient(to right, #6bd9ef, #7ce08a);
+    /* box-shadow: 0 2px 70px 0 rgb(93, 173, 93);
+    border-radius: 5px; */
+}
+
+.subnavbar-nav{
+    text-align: left;
+}
+
+.subnav .nav-link{
+    font-size: 20px;
+    color: rgb(43, 41, 41) !important;
+    margin: 2px;
+    
+}
+
+
+
 
 .banner{
     height: 80vh;
@@ -179,8 +206,12 @@ h3::before{
 
 /*Start Footer Section css*/
 
-.container-fluid {
-    background-color: #29b929;
+.container-fluid-footer {
+    background-color: #c6e2e2;
     background-repeat: no-repeat;
     background-size: cover;
+    color: rgb(43, 41, 41) !important;
+}
+.hr {
+    background-color: rgb(0, 162, 255);
 }

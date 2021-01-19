@@ -14,57 +14,78 @@ require_once('./database/config.php');
     <!-- Font Awesome icons (free version)-->
 
 
-    <link rel="stylesheet" href="./css/signup.css">
+    <link rel="stylesheet" href="./css/Signup.css">
+    <link rel="stylesheet" href="./css/style.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
+
+    <link href="./vender/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet">
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <!-- <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script> -->
-
 </head>
 
 <body>
 
-    <!--Start Navbar -->
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand" href="homepage.html">jobak.lk</a>
-            <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon "></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="contactus.html">Help & support</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Sign up</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="freeadd" href="addpost.html">Post FREE Vehicle AD</a>
-                    </li>
-                </ul>
-            </div>
+    <!-- start navigation bar      -->
+    <section id= "header">
+        <div class= "menu-bar">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="homepage.php">jobak.lk</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Find A Job</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Categories</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="signup.php">Sign Up</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="freeadd" href="#">Submit your cv</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
         </div>
-    </nav>
-    <!--End Navbar -->
+  <!-- end of navigation -->
 
     <div>
         <?php
-        if (isset($_POST['create'])) {
-            $firstname = $_POST['firstname'];
-            $lastname = $_POST['lastname'];
-            $email = $_POST['email'];
-            $password = $_POST['password'];
+        if (!empty($_POST['gender'])) {
+            if (isset($_POST['create'])) {
 
-            // echo $firstname . "" . $lastname. "" . $email . "" . $password;
-            $sql = "INSERT INTO users (firstname , lastname , email , password) VALUES(?,?,?,?)";
-            $stmtinsert = $db->prepare($sql);
-            $result = $stmtinsert->execute([$firstname, $lastname, $email, $password]);
-            if ($result) {
-                echo 'successfully saved';
-            } else {
-                echo 'there were errors';
+                $firstname = $_POST['firstname'];
+                $lastname = $_POST['lastname'];
+                $email = $_POST['email'];
+                $password = $_POST['password'];
+                $confirmpassword = $_POST['confirmpassword'];
+                $gender = $_POST['gender'];
+                $hometown = $_POST['hometown'];
+
+                // echo $firstname . "" . $lastname. "" . $email . "" . $password . "" . $confirmpassword . "" . $gender;
+                $sql = "INSERT INTO user (firstname , lastname , email , password , confirmpassword , gender , hometown) VALUES(?,?,?,?,?,?,?)";
+                $stmtinsert = $db->prepare($sql);
+                $result = $stmtinsert->execute([$firstname, $lastname, $email, $password, $confirmpassword , $gender , $hometown]);
+                if ($result) {
+                    echo 'successfully saved';
+                } else {
+                    echo 'there were errors';
+                }
             }
-        }
+    }
         ?>
     </div>
 
@@ -73,7 +94,7 @@ require_once('./database/config.php');
 
     <!-- sign up -->
     <div class="signup container">
-        <h2>Creat an account</h2>
+        <h2>Create an account</h2>
         <br><br>
         <form action="signup.php" method="POST">
             <table>
@@ -101,9 +122,32 @@ require_once('./database/config.php');
                     <td><input class="form-control mr-sm-2" id="password" name="password" type="password"></td>
 
                 </tr>
+                <tr>
+                    <td><label>Confirm Password: </label>
+                    </td>
+                    <td><input class="form-control mr-sm-2" id="confirmpassword" name="confirmpassword" type="password"></td>
+
+                </tr>
+
+                <tr>
+                    <td><label>Gender: </label>
+                    <td><form method="POST">
+                        <input type="radio" id="gender" name="gender" value="male"> Male 
+                        <input type="radio" id="gender" name="gender" value="female"> Female<br>
+                        </form>
+                    </td>
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td><label>Home Town: </td>
+                    <td> <input class="form-control mr-sm-2" id="hometown" name="hometown" type="text">
+                    </td>
+                </tr>
             </table>
             <div class="btn float-right" id="register">
-                <nput type="submit" onclick="popUp()" class="btn btn-success mt-1 float-right mr-5 mb-5 mr-sm-5" name="create">Create account</nputtype="submit">
+                <input type="submit" onclick="popUp()" class="btn btn-success mt-1 float-right mr-5 mb-5 mr-sm-5" name="create" value="Create account"></input>
             </div>
         </form>
 
@@ -118,15 +162,15 @@ require_once('./database/config.php');
     <br><br><br><br><br><br><br><br><br>
 
 
-    <!--Start Footer Section -->
-    <footer class="container-fluid page-footer font-small pt-4 bg-dark text-light">
+   <!--Start Footer Section -->
+   <footer class="container-fluid-footer page-footer font-small pt-4">
         <!-- Footer Links -->
         <div class="container text-center text-md-left">
             <!-- Footer links -->
             <div class="row text-center text-md-left mt-3 pb-3">
                 <!-- Grid column -->
                 <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3 ">
-                    <h6 class="text-uppercase mb-4 font-weight-bold">Riyasewana Srilanka</h6>
+                    <h6 class="text-uppercase mb-4 font-weight-bold">jobak.lk</h6>
                     <p>
                         Here you can use rows and columns to organize your footer content. Lorem ipsum dolor sit amet,
                         consectetur adipisicing elit.
@@ -144,13 +188,13 @@ require_once('./database/config.php');
                         <a class="text-decoration-none" href="homepage.html">Home</a>
                     </p>
                     <p>
-                        <a class="text-decoration-none" href="addpost.html">Post FREE Vehicle AD </a>
+                        <a class="text-decoration-none" href="addpost.html">Post A Free Vacancy</a>
                     </p>
                     <p>
                         <a class="text-decoration-none" href="contactus.html">Contact us</a>
                     </p>
                     <p>
-                        <a class="text-decoration-none" href="contribute.html">Contribute</a>
+                        <a class="text-decoration-none" href="#!">Contribute</a>
                     </p>
                 </div>
                 <!-- Grid column -->
@@ -159,16 +203,16 @@ require_once('./database/config.php');
                 <div id="contact" class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
                     <h6 id="contacus" class="text-uppercase mb-4 font-weight-bold">Contact</h6>
                     <p>
-                        <i class="fas fa-home mr-3"></i> No :- 15/1, Awissawella
+                        <i class="fa fa-home mr-3"></i> No :- 15/1, Awissawella
                     </p>
                     <p>
-                        <i class="fas fa-envelope mr-3"></i> infogmail@gmail.com
+                        <i class="fa fa-envelope mr-3"></i> infogmail@gmail.com
                     </p>
                     <p>
-                        <i class="fas fa-phone mr-3"></i> + 01 234 567 88
+                        <i class="fa fa-phone mr-3"></i> + 01 234 567 88
                     </p>
                     <p>
-                        <i class="fas fa-print mr-3"></i> + 01 234 567 89
+                        <i class="fa fa-print mr-3"></i> + 01 234 567 89
                     </p>
                 </div>
                 <!-- Grid column -->
@@ -181,7 +225,7 @@ require_once('./database/config.php');
                 <div class="col-md-4">
                     <div>
                         <div class="">
-                            <p>Copyright ..&copy; <span id="year"></span></p>
+                            <p>Copyright ..&copy; <span id="year">2021</span></p>
                         </div>
                     </div>
                 </div>
@@ -192,23 +236,23 @@ require_once('./database/config.php');
                     <div class="text-center text-md-right">
                         <ul class="list-unstyled list-inline">
                             <li class="list-inline-item">
-                                <a class="btn-floating btn-sm rgba-white-slight mx-1">
-                                    <i class="fab fa-facebook-f"></i>
+                                <a class="btn-floating btn-lg rgba-white-slight mx-1">
+                                    <i class="fa fa-facebook"></i>
                                 </a>
                             </li>
                             <li class="list-inline-item">
-                                <a class="btn-floating btn-sm rgba-white-slight mx-1">
-                                    <i class="fab fa-twitter"></i>
+                                <a class="btn-floating btn-lg rgba-white-slight mx-1">
+                                    <i class="fa fa-twitter"></i>
                                 </a>
                             </li>
                             <li class="list-inline-item">
-                                <a class="btn-floating btn-sm rgba-white-slight mx-1">
-                                    <i class="fab fa-google-plus-g"></i>
+                                <a class="btn-floating btn-lg rgba-white-slight mx-1">
+                                    <i class="fa fa-linkedin"></i>
                                 </a>
                             </li>
                             <li class="list-inline-item">
-                                <a class="btn-floating btn-sm rgba-white-slight mx-1">
-                                    <i class="fab fa-linkedin-in"></i>
+                                <a class="btn-floating btn-lg rgba-white-slight mx-1">
+                                    <i class="fa fa-google-plus"></i>
                                 </a>
                             </li>
                         </ul>
@@ -220,9 +264,6 @@ require_once('./database/config.php');
         </div>
         <!-- Footer Links -->
     </footer>
-
-
-
     <!--End Footer Section -->
 
     <!--Start back to up button-->
@@ -237,6 +278,10 @@ require_once('./database/config.php');
             var lastname = $('#lastname').val();
             var email = $('#email').val();
             var password = $('#password').val();
+            var confirmpassword = $('#confirmpassword').val();
+            var gender = $('#gender').val();
+            var hometown = $('#hometown').val();
+            
 
             // var firstname = document.getElementById('firstname').value;
             // var lastname = document.getElementById('lastname').value;
@@ -246,7 +291,10 @@ require_once('./database/config.php');
             if (firstname == "" ||
             lastname == "" ||
             email == "" ||
-            password == "" ){
+            password == "" ||
+            confirmpassword == "" ||
+            gender == "" ||
+            hometown == ""){
                 sweetAlert("Oops...", "Some details are missing, Please fill!", "error");
             } else {
                 swal("Successfully!", "password changed!", "success");
