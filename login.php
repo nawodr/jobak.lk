@@ -1,6 +1,7 @@
 <?php
-include('./database/config.php');
+include ('./database/config.php');
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -8,87 +9,68 @@ include('./database/config.php');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>jobak | Sign Up</title>
+    <title>login</title>
 
     <link href="./vender/bootstrap/css/bootstrap.css" rel="stylesheet">
     <!-- Font Awesome icons (free version)-->
 
 
-    <link rel="stylesheet" href="./css/Signup.css">
+    <link rel="stylesheet" href="./css/login.css">
     <link rel="stylesheet" href="./css/style.css">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
 
-    <link href="./vender/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <!-- <link href="./vender/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet"> -->
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-    <?php 
-$error_message = "";
-$success_message = "";
+    	<!--Bootsrap 4 CDN-->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    
+    <!--Fontawesome CDN-->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
-// Register user
-if(isset($_POST['btnsignup'])){
-   $firstname = trim($_POST['firstname']);
-   $lastname = trim($_POST['lastname']);
-   $email = trim($_POST['email']);
-   $password = trim($_POST['password']);
-   $confirmpassword = trim($_POST['confirmpassword']);
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-   $isValid = true;
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
 
-   // Check fields are empty or not
-   if($firstname == '' || $lastname == '' || $email == '' || $password == '' || $confirmpassword == ''){
-     $isValid = false;
-     $error_message = "Please fill all fields.";
-   }
+    <?php
 
-   // Check if confirm password matching or not
-   if($isValid && ($password != $confirmpassword) ){
-     $isValid = false;
-     $error_message = "Confirm password not matching";
-   }
 
-   // Check if Email-ID is valid or not
-   if ($isValid && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-     $isValid = false;
-     $error_message = "Invalid Email-ID.";
-   }
+if(isset($_POST['but_submit'])){
 
-   if($isValid){
+    $username = mysqli_real_escape_string($con,$_POST['email']);
+    $password = mysqli_real_escape_string($con,$_POST['password']);
 
-     // Check if Email-ID already exists
-     $stmt = $con->prepare("SELECT * FROM user WHERE email = ?");
-     $stmt->bind_param("s", $email);
-     $stmt->execute();
-     $result = $stmt->get_result();
-     $stmt->close();
-     if($result->num_rows > 0){
-       $isValid = false;
-       $error_message = "Email-ID is already existed.";
-     }
+    if ($username != "" && $password != ""){
 
-   }
+        $sql_query = "select count(*) as cntUser from users where username='".$username."' and password='".$password."'";
+        $result = mysqli_query($con,$sql_query);
+        $row = mysqli_fetch_array($result);
 
-   // Insert records
-   if($isValid){
-     $insertSQL = "INSERT INTO user(firstname,lastname,email,password ) values(?,?,?,?)";
-     $stmt = $con->prepare($insertSQL);
-     $stmt->bind_param("ssss",$firstname,$lastname,$email,$password);
-     $stmt->execute();
-     $stmt->close();
+        $count = $row['cntUser'];
 
-     $success_message = "Account created successfully.";
-   }
+        if($count > 0){
+            $_SESSION['username'] = $username;
+            header('Location: homepage.php');
+        }else{
+            echo "Invalid username and password";
+        }
+
+    }
+
 }
 ?>
-
 </head>
 
 <body>
@@ -121,99 +103,63 @@ if(isset($_POST['btnsignup'])){
                 </div>
             </nav>
         </div>
-  <!-- end of navigation -->
-
-    
+        </section>
+  <!-- end of navigation -->    
 
     <div class="header">
     </div>
+    <br><br><br>
 
-    <!-- sign up -->
-    <div class="signup container">
-        <h2>Create an account</h2>
-        <br><br>
-        <form action="signup.php" method="POST">
-            <?php 
-                // Display Error message
-                if(!empty($error_message)){
-                ?>
-                <div class="alert alert-danger">
-                    <strong>Error!</strong> <?= $error_message ?>
-                </div>
+    <!-- login -->
+    <br><br>
+    <div class="container h-100">
+		<div class="d-flex justify-content-center h-100">
+			<div class="user_card">
+				<div class="d-flex justify-content-center">
+					<div class="brand_logo_container">
+                    <img src="img/profilepic/login.png" class="brand_logo" alt="Logo">
+					</div>
+				</div>
+				<div class="d-flex justify-content-center form_container">
+					<form action="login.php" method="POST">
+						<div class="input-group mb-3">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-user"></i></span>
+							</div>
+							<input class="form-control input_user" type="text" name="email" id="email" placeholder="email">
+						</div>
+						<div class="input-group mb-2">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-key"></i></span>
+							</div>
+							<input class="form-control input_pass" type="password" name="password" id = "password" placeholder="password">
+						</div>
+						<div class="form-group">
+							<div class="custom-control custom-checkbox">
+								<input type="checkbox" class="custom-control-input" id="customControlInline">
+								<label class="custom-control-label" for="customControlInline">Remember me</label>
+							</div>
+						</div>
+							<div class="d-flex justify-content-center mt-3 login_container">
+				 	<input type="submit" value="login" id="but_submit" name="but_submit" class="btn login_btn"></input>
+				   </div>
+					</form>
+				</div>
+		
+				<div class="mt-4">
+					<div class="d-flex justify-content-center links">
+						Don't have an account? <a href="#" class="ml-2">Sign Up</a>
+					</div>
+					<div class="d-flex justify-content-center links">
+						<a href="#">Forgot your password?</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-                <?php
-                }
-                ?>
-
-                <?php 
-                // Display Success message
-                if(!empty($success_message)){
-                ?>
-                <div class="alert alert-success">
-                <strong>Success!</strong> <?= $success_message ?>
-                </div>
-
-                <?php
-                }
-                ?>
-            <table>
-                <tr>
-                    <td><label>First Name:</td>
-                    <td> <input class="form-control mr-sm-2" id="firstname" name="firstname" type="text">
-                    </td>
-                </tr>
-
-                <tr>
-                    <td><label>Last Name:</td>
-                    <td> <input class="form-control mr-sm-2" id="lastname" name="lastname" type="text">
-                    </td>
-                </tr>
-
-                <tr>
-                    <td><label>E-mail: </label>
-                    </td>
-                    <td><input class="form-control mr-sm-2" id="email" name="email" type="text"></td>
-                </tr>
-
-                <tr>
-                    <td><label>Password: </label>
-                    </td>
-                    <td><input class="form-control mr-sm-2" id="password" name="password" type="password"></td>
-
-                </tr>
-                <tr>
-                    <td><label>Confirm Password: </label>
-                    </td>
-                    <td><input class="form-control mr-sm-2" id="confirmpassword" name="confirmpassword" type="password"></td>
-
-                </tr>
-
-                <!-- <tr>
-                    <td><label>Gender: </label>
-                    <td><form method="POST">
-                        <input type="radio" id="gender" name="gender" value="male"> Male 
-                        <input type="radio" id="gender" name="gender" value="female"> Female<br>
-                        </form>
-                    </td>
-                    </td>
-
-                </tr> -->
-
-                <!-- <tr>
-                    <td><label>Home Town: </td>
-                    <td> <input class="form-control mr-sm-2" id="hometown" name="hometown" type="text">
-                    </td>
-                </tr> -->
-            </table>
-            <div class="btn float-right" id="register">
-                <input type="submit" class="btn btn-success mt-1 float-right mr-5 mb-5 mr-sm-5" name="btnsignup" value="Create account"></input>
-            </div>
-        </form>
-
-    </div>
-
-    <br><br><br><br><br><br><br><br><br>
-
+    <br><br><br><br>
+        <!-- end of login -->
 
    <!--Start Footer Section -->
    <footer class="container-fluid-footer page-footer font-small pt-4">
@@ -322,38 +268,6 @@ if(isset($_POST['btnsignup'])){
     <!--Start back to up button-->
     <a href="#" class="scrollUpButton">&#9650</a>
     <!--End back to up button-->
-
-    <!-- validation -->
-
-    <script type="text/javascript">
-        function popUp() {
-            var firstname = $('#firstname').val();
-            var lastname = $('#lastname').val();
-            var email = $('#email').val();
-            var password = $('#password').val();
-            var confirmpassword = $('#confirmpassword').val();
-            var gender = $('#gender').val();
-            var hometown = $('#hometown').val();
-            
-
-            // var firstname = document.getElementById('firstname').value;
-            // var lastname = document.getElementById('lastname').value;
-            // var email = document.getElementById('email').value;
-            // var password = document.getElementById('password').value;
-
-            if (firstname == "" ||
-            lastname == "" ||
-            email == "" ||
-            password == "" ||
-            confirmpassword == "" ||
-            gender == "" ||
-            hometown == ""){
-                sweetAlert("Oops...", "Some details are missing, Please fill!", "error");
-            } else {
-                swal("Successfully!", "password changed!", "success");
-            }
-        }
-    </script>
 
 
 </body>
