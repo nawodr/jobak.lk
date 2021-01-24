@@ -1,17 +1,4 @@
-<?php
-include ('./database/config.php');
 
-// Check user login or not
-if(!isset($_SESSION['uname'])){
-    header('Location: index.php');
-}
-
-// logout
-if(isset($_POST['but_logout'])){
-    session_destroy();
-    header('Location: index.php');
-}
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -56,7 +43,7 @@ if(isset($_POST['but_logout'])){
                                 <a class="nav-link" href="#">Categories</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="signup.php">Sign Up</a>
+                                <a class="nav-link" href="login.php">Login</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="freeadd" href="#">Submit your cv</a>

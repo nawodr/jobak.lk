@@ -111,7 +111,7 @@ if(isset($_POST['btnsignup'])){
                                 <a class="nav-link" href="#">Categories</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="signup.php">Sign Up</a>
+                                <a class="nav-link" href="login.php">Login</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="freeadd" href="#">Submit your cv</a>
@@ -121,6 +121,7 @@ if(isset($_POST['btnsignup'])){
                 </div>
             </nav>
         </div>
+    </section>
   <!-- end of navigation -->
 
     

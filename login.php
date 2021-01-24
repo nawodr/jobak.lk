@@ -47,29 +47,29 @@ include ('./database/config.php');
     <?php
 
 
-if(isset($_POST['but_submit'])){
+    if(isset($_POST['but_login'])){
 
-    $username = mysqli_real_escape_string($con,$_POST['email']);
-    $password = mysqli_real_escape_string($con,$_POST['password']);
+        $email = mysqli_real_escape_string($con,$_POST['email']);
+        $password = mysqli_real_escape_string($con,$_POST['password']);
 
-    if ($username != "" && $password != ""){
+        if ($email != "" && $password != ""){
 
-        $sql_query = "select count(*) as cntUser from users where username='".$username."' and password='".$password."'";
-        $result = mysqli_query($con,$sql_query);
-        $row = mysqli_fetch_array($result);
+            $sql_query = "select count(*) as cntUser from user where email='".$email."' and password='".$password."'";
+            $result = mysqli_query($con,$sql_query);
+            $row = mysqli_fetch_array($result);
 
-        $count = $row['cntUser'];
+            $count = $row['cntUser'];
 
-        if($count > 0){
-            $_SESSION['username'] = $username;
-            header('Location: homepage.php');
-        }else{
-            echo "Invalid username and password";
+            if($count > 0){
+                $_SESSION['username'] = $username;
+                header('Location: homepage.php');
+            }else{
+                echo "Invalid username and password";
+            }
+
         }
 
     }
-
-}
 ?>
 </head>
 
@@ -93,7 +93,7 @@ if(isset($_POST['but_submit'])){
                                 <a class="nav-link" href="#">Categories</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="signup.php">Sign Up</a>
+                                <a class="nav-link" href="login.php">Login</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="freeadd" href="#">Submit your cv</a>
@@ -141,14 +141,14 @@ if(isset($_POST['but_submit'])){
 							</div>
 						</div>
 							<div class="d-flex justify-content-center mt-3 login_container">
-				 	<input type="submit" value="login" id="but_submit" name="but_submit" class="btn login_btn"></input>
+				 	<input type="submit" value="login" id="but_login" name="but_login" class="btn login_btn"></input>
 				   </div>
 					</form>
 				</div>
 		
 				<div class="mt-4">
 					<div class="d-flex justify-content-center links">
-						Don't have an account? <a href="#" class="ml-2">Sign Up</a>
+						Don't have an account? <a href="signup.php" class="ml-2">Sign Up</a>
 					</div>
 					<div class="d-flex justify-content-center links">
 						<a href="#">Forgot your password?</a>
